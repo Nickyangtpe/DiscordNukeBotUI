@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DiscordNukeBotUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "DiscordNukeBotUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

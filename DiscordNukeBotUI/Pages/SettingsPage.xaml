@@ -1,0 +1,126 @@
+<Page
+    x:Class="DiscordNukeBot.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:DiscordNukeBot.ViewModels"
+    xmlns:converters="using:DiscordNukeBot.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBool"/>
+    </Page.Resources>
+
+    <Page.DataContext>
+        <viewmodels:SettingsViewModel x:Name="ViewModel"/>
+    </Page.DataContext>
+
+    <ScrollViewer Padding="20">
+        <StackPanel Spacing="15">
+            <TextBlock Text="Nuke Settings" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,10"/>
+
+            <!-- Bot Token -->
+            <TextBlock Text="Bot Token" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <PasswordBox PlaceholderText="Enter Bot Token (hidden )" Password="{x:Bind ViewModel.BotToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <!-- General -->
+            <TextBlock Text="General" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <TextBox Header="New Server Name" Text="{x:Bind ViewModel.Settings.GuildName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <!-- Channels -->
+            <TextBlock Text="Channels" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <TextBox Header="New Channel Name" Text="{x:Bind ViewModel.Settings.ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <NumberBox Header="Number of Channels to Create" Value="{x:Bind ViewModel.Settings.ChannelCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SpinButtonPlacementMode="Inline" Minimum="0" Maximum="500"/>
+
+            <!-- Roles -->
+            <TextBlock Text="Roles" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <TextBox Header="New Role Name" Text="{x:Bind ViewModel.Settings.RoleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <NumberBox Header="Number of Roles to Create" Value="{x:Bind ViewModel.Settings.RoleCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SpinButtonPlacementMode="Inline" Minimum="0" Maximum="250"/>
+
+            <!-- Message Spam -->
+            <TextBlock Text="Message Spam" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <NumberBox Header="Messages to Spam per Channel" Value="{x:Bind ViewModel.Settings.MessageSpamCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SpinButtonPlacementMode="Inline" Minimum="0" Maximum="100"/>
+            <TextBox Header="Spam Messages (one per line)" Text="{x:Bind ViewModel.SpamMessagesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Height="120" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+            <!-- Webhook Spam -->
+            <TextBlock Text="Webhook Spam" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <ToggleSwitch Header="Use Webhook Spam" IsOn="{x:Bind ViewModel.Settings.UseWebhookSpam, Mode=TwoWay}"/>
+            <TextBox Header="Webhook Username" Text="{x:Bind ViewModel.Settings.WebhookUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ViewModel.Settings.UseWebhookSpam, Mode=OneWay}"/>
+            <NumberBox Header="Webhooks per Channel" Value="{x:Bind ViewModel.Settings.WebhooksPerChannel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ViewModel.Settings.UseWebhookSpam, Mode=OneWay}" Minimum="1" Maximum="10"/>
+
+            <!-- Member Actions -->
+            <TextBlock Text="Member Actions" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <ToggleSwitch Header="Kick All Members" IsOn="{x:Bind ViewModel.Settings.KickAllMembers, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Ban Members Instead of Kick" IsOn="{x:Bind ViewModel.Settings.BanMembersInsteadOfKick, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.Settings.KickAllMembers, Mode=OneWay}"/>
+            <TextBox Header="Ban Reason" Text="{x:Bind ViewModel.Settings.BanReason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ViewModel.Settings.BanMembersInsteadOfKick, Mode=OneWay}"/>
+            <ToggleSwitch Header="Kick All Other Bots" IsOn="{x:Bind ViewModel.Settings.KickAllBots, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Unban All Previously Banned Users" IsOn="{x:Bind ViewModel.Settings.UnbanAll, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Change All Nicknames" IsOn="{x:Bind ViewModel.Settings.ChangeAllNicknames, Mode=TwoWay}"/>
+            <TextBox Header="New Nickname" Text="{x:Bind ViewModel.Settings.NewNickname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ViewModel.Settings.ChangeAllNicknames, Mode=OneWay}"/>
+            <ToggleSwitch Header="DM All Members" IsOn="{x:Bind ViewModel.Settings.DmAllMembers, Mode=TwoWay}"/>
+            <TextBox Header="DM Messages (one per line)" Text="{x:Bind ViewModel.DmMessagesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Height="100" TextWrapping="Wrap" IsEnabled="{x:Bind ViewModel.Settings.DmAllMembers, Mode=OneWay}"/>
+
+            <!-- Server Modification -->
+            <TextBlock Text="Server Modification" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <ToggleSwitch Header="Grant Admin to @everyone" IsOn="{x:Bind ViewModel.Settings.GrantAdminToEveryone, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Set Verification Level to Max" IsOn="{x:Bind ViewModel.Settings.SetVerificationLevelToMax, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Set Notifications to Mentions Only" IsOn="{x:Bind ViewModel.Settings.SetNotificationsToMentionsOnly, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Change Server Region Randomly" IsOn="{x:Bind ViewModel.Settings.ChangeServerRegion, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Use Random Server Icon" IsOn="{x:Bind ViewModel.Settings.UseRandomIcon, Mode=TwoWay}"/>
+            <TextBox Header="Random Icon URLs (one per line)" Text="{x:Bind ViewModel.RandomIconUrlsText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Height="100" TextWrapping="Wrap" IsEnabled="{x:Bind ViewModel.Settings.UseRandomIcon, Mode=OneWay}"/>
+
+            <!-- Emojis -->
+            <TextBlock Text="Emojis" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <NumberBox Header="Number of Emojis to Create" Value="{x:Bind ViewModel.Settings.EmojiCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SpinButtonPlacementMode="Inline" Minimum="0" Maximum="100"/>
+            <TextBox Header="Emoji Name Prefix" Text="{x:Bind ViewModel.Settings.EmojiNamePrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Header="Emoji Image URL" Text="{x:Bind ViewModel.Settings.EmojiImageUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <!-- Execution Strategy -->
+            <TextBlock Text="Execution Strategy" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <ToggleSwitch Header="Delete All Channels First" IsOn="{x:Bind ViewModel.Settings.DeleteChannelsFirst, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Delete All Roles First" IsOn="{x:Bind ViewModel.Settings.DeleteRolesFirst, Mode=TwoWay}"/>
+            <ToggleSwitch Header="Randomize Execution Order" IsOn="{x:Bind ViewModel.Settings.RandomizeExecutionOrder, Mode=TwoWay}"/>
+
+            <!-- Cleanup -->
+            <TextBlock Text="Cleanup" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+            <ToggleSwitch Header="Prune Inactive Members" IsOn="{x:Bind ViewModel.Settings.PruneMembers, Mode=TwoWay}"/>
+            <NumberBox Header="Prune members inactive for (days)" Value="{x:Bind ViewModel.Settings.PruneDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ViewModel.Settings.PruneMembers, Mode=OneWay}" Minimum="1" Maximum="30"/>
+
+            <!-- Delay Settings -->
+            <TextBlock Text="Delay Settings" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <ToggleSwitch Header="Use Random Delays" IsOn="{x:Bind ViewModel.Settings.UseRandomDelays, Mode=TwoWay}"/>
+            <NumberBox Header="Min Delay (ms)" Value="{x:Bind ViewModel.Settings.MinDelayBetweenActionsMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0"/>
+            <NumberBox Header="Max Delay (ms)" Value="{x:Bind ViewModel.Settings.MaxDelayBetweenActionsMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0"/>
+            <NumberBox Header="Fixed Delay (ms)" Value="{x:Bind ViewModel.Settings.FixedDelayMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ViewModel.Settings.UseRandomDelays, Converter={StaticResource InverseBool}}" Minimum="0"/>
+
+            <!-- Granular Delay Settings -->
+            <ToggleSwitch Header="Use Granular Delays (Overrides above)" IsOn="{x:Bind ViewModel.Settings.UseGranularDelays, Mode=TwoWay}" Margin="0,10,0,0"/>
+            <ContentControl IsEnabled="{x:Bind ViewModel.Settings.UseGranularDelays, Mode=OneWay}">
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <NumberBox Grid.Row="0" Grid.Column="0" Header="Min Channel Delay" Value="{x:Bind ViewModel.Settings.MinDelayChannelCreation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <NumberBox Grid.Row="0" Grid.Column="1" Header="Max Channel Delay" Value="{x:Bind ViewModel.Settings.MaxDelayChannelCreation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <NumberBox Grid.Row="1" Grid.Column="0" Header="Min Role Delay" Value="{x:Bind ViewModel.Settings.MinDelayRoleCreation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <NumberBox Grid.Row="1" Grid.Column="1" Header="Max Role Delay" Value="{x:Bind ViewModel.Settings.MaxDelayRoleCreation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <NumberBox Grid.Row="2" Grid.Column="0" Header="Min Message Delay" Value="{x:Bind ViewModel.Settings.MinDelayMessageSpam, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <NumberBox Grid.Row="2" Grid.Column="1" Header="Max Message Delay" Value="{x:Bind ViewModel.Settings.MaxDelayMessageSpam, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <NumberBox Grid.Row="3" Grid.Column="0" Header="Min Member Action Delay" Value="{x:Bind ViewModel.Settings.MinDelayMemberAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <NumberBox Grid.Row="3" Grid.Column="1" Header="Max Member Action Delay" Value="{x:Bind ViewModel.Settings.MaxDelayMemberAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </Grid>
+            </ContentControl>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
