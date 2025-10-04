@@ -1,4 +1,5 @@
 # DiscordNukeBotUI
+<img width="1414" height="721" alt="image" src="https://github.com/user-attachments/assets/9441b1c0-7ca2-4e02-a49a-5b9a5a00f995" />
 
 ## Project Overview
 
